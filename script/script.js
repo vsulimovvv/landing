@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
         timerMinutes.textContent = addZero(timer.minutes);
         timerSeconds.textContent = addZero(timer.seconds);
         if (timer.timeRemaining > 0) {
-          setInterval(updateClock, 1000);
+          setTimout(updateClock, 1000);
         } else {
           timerHours.textContent = '00';
           timerMinutes.textContent = '00';
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       updateClock();
     }
-    setInterval(countTimer, 1000, '10 march 2020');
+    setInterval(countTimer, 1000, '8 march 2020');
 
     // Модальное окно
     const toggleMenu = () => {
