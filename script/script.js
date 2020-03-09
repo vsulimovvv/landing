@@ -59,16 +59,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
       btnMenu.addEventListener('click', handlerMenu);
       closeBtn.addEventListener('click', handlerMenu);
-
       menuItems.forEach((elem) => elem.addEventListener('click', handlerMenu));
     };
 
     toggleMenu();
 
     // popup
-    const popup = document.querySelector('.popup'); // popup
-    const popupContent = document.querySelector('.popup-content'); //popup-content
-    const popupBtns = document.querySelectorAll('.popup-btn'); // popup-btns
+    const popup = document.querySelector('.popup'), // popup
+      popupContent = document.querySelector('.popup-content'), //popup-content
+      popupBtns = document.querySelectorAll('.popup-btn'); // popup-btns
 
     const openPopup = () => {
       popup.style.display = 'block'; // показываем попап
@@ -89,7 +88,6 @@ document.addEventListener("DOMContentLoaded", () => {
         let draw = timePassed => {
           let hContent = getComputedStyle(popupContent).height.split('px')[0];
           hContent = -hContent / 2 + 'px';
-          console.log(hContent)
           popupContent.style.top = timePassed / 16 + '%';
           popupContent.style.marginTop = hContent;
         }
@@ -100,10 +98,54 @@ document.addEventListener("DOMContentLoaded", () => {
       item.addEventListener('click', openPopup);
     });
 
-    popup.addEventListener('click', e => {
-      if (e.target.matches('.popup-close')) {
+    popup.addEventListener('click', (event) => {
+      let target = event.target;
+
+      if (target.classList.contains('popup-close')) {
         popup.style.display = "none";
+      } else {
+        target = target.closest('.popup-content');
+
+        if (!target) {
+          popup.style.display = "none";
+        }
       }
     });
   }
+
+  // Табы
+  const tabs = () => {
+    const tabHeader = document.querySelector('.service-header'),
+      tab = tabHeader.querySelectorAll('.service-header-tab'),
+      tabContent = document.querySelectorAll('.service-tab');
+
+    // функция меняющая контент
+    const toggleTabContent = (index) => {
+      for (let i = 0; i < tabContent.length; i++) {
+        if (index === i) {
+          tab[i].classList.add('active');
+          tabContent[i].classList.remove('d-none');
+        } else {
+          tab[i].classList.remove('active');
+          tabContent[i].classList.add('d-none');
+        }
+      }
+    };
+
+    tabHeader.addEventListener('click', (event) => {
+      let target = event.target;
+      target = target.closest('.service-header-tab');
+
+      if (target) {
+        tab.forEach((item, i) => {
+          if (item === target) {
+            toggleTabContent(i);
+          }
+        });
+      }
+
+    });
+  }
+
+  tabs();
 });
