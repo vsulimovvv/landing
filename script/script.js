@@ -32,11 +32,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
       function updateClock() {
         let timer = getTimeRemaining();
-        timerHours.textContent = addZero(timer.hours);
-        timerMinutes.textContent = addZero(timer.minutes);
-        timerSeconds.textContent = addZero(timer.seconds);
         if (timer.timeRemaining > 0) {
-          setTimout(updateClock, 1000);
+          timerHours.textContent = addZero(timer.hours);
+          timerMinutes.textContent = addZero(timer.minutes);
+          timerSeconds.textContent = addZero(timer.seconds);
         } else {
           timerHours.textContent = '00';
           timerMinutes.textContent = '00';
@@ -45,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       updateClock();
     }
-    setInterval(countTimer, 1000, '8 march 2020');
+    setInterval(countTimer, 1000, '10 march 2020');
 
     // Модальное окно
     const toggleMenu = () => {
