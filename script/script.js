@@ -90,10 +90,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       btnMenu.addEventListener('click', handlerMenu);
 
-
       menu.addEventListener('click', function (event) {
         let target = event.target;
-        if (target.matches('.close-btn') || target.matches('menu>ul>li')) {
+        if (target.matches('.close-btn') || target.closest('li')) {
           menu.style.display = "none";
         }
       });
@@ -275,7 +274,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    startSlide(1000);
+    startSlide(10000);
 
   }
   slider();
