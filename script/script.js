@@ -46,38 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     setInterval(countTimer, 1000, '10 march 2020');
 
-    // Модальное окно
-    // const toggleMenu = () => {
-    //   const btnMenu = document.querySelector('.menu'),
-    //     menu = document.querySelector('menu'),
-    //     // closeBtn = document.querySelector('.close-btn'),
-    //     menuItems = menu.querySelectorAll('ul>li');
-
-    //   // const handlerMenu = () => {
-    //   //   menu.classList.toggle('active-menu');
-    //   // }
-
-    //   btnMenu.addEventListener('click', (event) => {
-    //     let target = event.target;
-    //     console.log(event.target);
-    //     if (target.classList.contains('close-btn')) {
-    //       menu.style.display = "none";
-    //     } else {
-    //       target = target.closest('.menu');
-    //       // menu.style.display = "block";
-
-    //       if (!target) {
-    //         menu.style.display = "block";
-    //       }
-    //     }
-    //   });
-    //   // btnMenu.addEventListener('click', handlerMenu);
-    //   // closeBtn.addEventListener('click', handlerMenu);
-    //   // menuItems.forEach((elem) => elem.addEventListener('click', handlerMenu));
-    // };
-
-    // toggleMenu();
-
+    // модальное окно
     const toggleMenu = () => {
       const btnMenu = document.querySelector('.menu'),
         menu = document.querySelector('menu'),
@@ -93,7 +62,9 @@ document.addEventListener("DOMContentLoaded", () => {
       menu.addEventListener('click', function (event) {
         let target = event.target;
         if (target.matches('.close-btn') || target.closest('li')) {
-          menu.style.display = "none";
+          // menu.style.display = "none";
+          menu.style.transform = 'translate(' + -100 + '%)';
+          // menu.style.transform = "-100%";
         }
       });
     }
