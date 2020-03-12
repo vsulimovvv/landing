@@ -44,29 +44,38 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       updateClock();
     }
-    setInterval(countTimer, 1000, '10 march 2020');
+    setInterval(countTimer, 1000, '20 march 2020');
 
     // модальное окно
     const toggleMenu = () => {
-      const btnMenu = document.querySelector('.menu'),
-        menu = document.querySelector('menu'),
-        // closeBtn = document.querySelector('.close-btn'),
-        menuItems = menu.querySelectorAll('ul>li');
+
+      const menu = document.querySelector("menu");
+      const btnMenu = document.querySelector('.menu');
 
       const handlerMenu = () => {
-        menu.classList.toggle('active-menu');
-      }
+        if (screen.width > 768) {
+          menu.classList.toggle("active-menu");
+        } else {
+          if (
+            !menu.style.transform ||
+            menu.style.transform === `translate(-100%)`
+          ) {
+            menu.style.transform = `translate(0)`;
+          } else {
+            handlerMenu();
+          }
+        }
+      };
 
       btnMenu.addEventListener('click', handlerMenu);
 
       menu.addEventListener('click', function (event) {
         let target = event.target;
         if (target.matches('.close-btn') || target.closest('li')) {
-          // menu.style.display = "none";
-          menu.style.transform = 'translate(' + -100 + '%)';
+          handlerMenu();
         }
       });
-    }
+    };
 
     toggleMenu();
 
@@ -155,12 +164,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
   tabs();
 
+
   // slider
   const slider = () => {
 
-    const slides = document.querySelectorAll(".portfolio-item");
-    const dot = document.querySelectorAll(".dot");
-    const slider = document.querySelector(".portfolio-content");
+    const slides = document.querySelectorAll('.portfolio-item'),
+      slider = document.querySelector('.portfolio-content'),
+      ul = document.querySelector('.portfolio-dots');
+
+    const createDots = () => {
+
+      for (let i = 0; i < slides.length; i++) {
+        const li = document.createElement('li');
+        if (i === 0) {
+          li.className = 'dot dot-active';
+        }
+        else {
+          li.className = 'dot';
+        }
+        ul.appendChild(li);
+      }
+    }
+    createDots();
+
+    let dot = document.querySelectorAll('.dot');
 
     let currentSlide = 0,
       interval;
@@ -175,14 +202,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const autoPlaySlide = () => {
 
-      prevSlide(slides, currentSlide, "portfolio-item-active");
-      prevSlide(dot, currentSlide, "dot-active");
+      prevSlide(slides, currentSlide, 'zportfolio-item-active');
+      prevSlide(dot, currentSlide, 'dot-active');
       currentSlide++;
       if (currentSlide >= slides.length) {
         currentSlide = 0;
       }
-      nextSlide(slides, currentSlide, "portfolio-item-active");
-      nextSlide(dot, currentSlide, "dot-active");
+      nextSlide(slides, currentSlide, 'portfolio-item-active');
+      nextSlide(dot, currentSlide, 'dot-active');
     };
 
     const startSlide = (time = 10000) => {
@@ -193,23 +220,23 @@ document.addEventListener("DOMContentLoaded", () => {
       clearInterval(interval);
     };
 
-    slider.addEventListener("click", event => {
+    slider.addEventListener('click', event => {
       event.preventDefault();
 
       const target = event.target;
 
-      if (!target.matches(".portfolio-btn, .dot")) {
+      if (!target.matches('.portfolio-btn, .dot')) {
         return;
       }
 
-      prevSlide(slides, currentSlide, "portfolio-item-active");
-      prevSlide(dot, currentSlide, "dot-active");
+      prevSlide(slides, currentSlide, 'portfolio-item-active');
+      prevSlide(dot, currentSlide, 'dot-active');
 
-      if (target.matches("#arrow-right")) {
+      if (target.matches('#arrow-right')) {
         currentSlide++;
-      } else if (target.matches("#arrow-left")) {
+      } else if (target.matches('#arrow-left')) {
         currentSlide--;
-      } else if (target.matches(".dot")) {
+      } else if (target.matches('.dot')) {
         dot.forEach((elem, index) => {
           if (elem === target) {
             currentSlide = index;
@@ -223,50 +250,30 @@ document.addEventListener("DOMContentLoaded", () => {
       if (currentSlide < 0) {
         currentSlide = slides.length - 1;
       }
-      nextSlide(slides, currentSlide, "portfolio-item-active");
-      nextSlide(dot, currentSlide, "dot-active");
+      nextSlide(slides, currentSlide, 'portfolio-item-active');
+      nextSlide(dot, currentSlide, 'dot-active');
     });
 
-    slider.addEventListener("mouseover", event => {
+    slider.addEventListener('mouseover', event => {
       if (
-        event.target.matches(".portfolio-btn") ||
-        event.target.matches(".dot")
+        event.target.matches('.portfolio-btn') ||
+        event.target.matches('.dot')
       ) {
         stopSlide();
       }
     });
 
-    slider.addEventListener("mouseout", event => {
+    slider.addEventListener('mouseout', event => {
       if (
-        event.target.matches(".portfolio-btn") ||
-        event.target.matches(".dot")
+        event.target.matches('.portfolio-btn') ||
+        event.target.matches('.dot')
       ) {
         startSlide();
       }
     });
 
-    const createDot = () => {
-
-      slides.forEach(() => {
-        const ul = document.querySelector(".portfolio-dots");
-        let newDot = document.createElement('li');
-        newDot.className = 'dot';
-        ul.appendChild(newDot);
-      });
-
-      // for (let i = 0; i < slides.length - 1; i++) {
-      //   const ul = document.querySelector(".portfolio-dots");
-      //   const li = document.createElement("li");
-      //   li.className = "dot";
-      //   ul.appendChild(li);
-      // }
-
-
-    }
-
-    createDot();
-
     startSlide();
   }
+
   slider();
 });
