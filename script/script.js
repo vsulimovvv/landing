@@ -271,61 +271,26 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    startSlide(1000);
+    startSlide(10000);
   }
 
   slider();
 
-
-  // changeImage
-  // У каждой фото есть data атрибут с другой картинкой data-image.
-  // Необходимо реализовать, чтобы по наведению мышкой менялись фотографии, а если увести мышку с элемента то возвращается прежняя фото.
-
-  // slider.addEventListener('mouseover', event => {
-  //   if (
-  //     event.target.matches('.portfolio-btn') ||
-  //     event.target.matches('.dot')
-  //   ) {
-  //     stopSlide();
-  //   }
-  // });
-
-  // slider.addEventListener('mouseout', event => {
-  //   if (
-  //     event.target.matches('.portfolio-btn') ||
-  //     event.target.matches('.dot')
-  //   ) {
-  //     startSlide();
-  //   }
-  // });
-
-
-  // Вешаешь обработчик событие наведение мыши, с таргета выцепляешь дефолтный путь который в src и сохраняешь в переменную, потом ссылку в src меняешь путем из data. В этом же обработчике навешиваешь событие убрать мышь и в нем ставишь в src ссылку которая была изначально
-
-  // const changeImage = () => {
-
-  //   const commandPhoto = document.querySelectorAll('.command__photo');
-
-  //   commandPhoto.forEach((item) => {
-
-  //     item.addEventListener('mouseenter', event => {
-
-  //       let defaultPath = event.target.getAttribute('src');
-  //       event.target.setAttribute((event.target.getAttribute(defaultPath)));
-  //       // event.target.setAttribute((event.target.getAttribute('data-img')));
-  //       // event.target.src = event.target.dataset.img;
-  //       // console.log(defaultPath);
-
-  //     });
-
-  //     item.addEventListener('mouseout', event => {
-
-
-  //     });
-  //   });
-  // }
-
-  // changeImage();
+  // смена картинок
+  const changeImg = () => {
+    const command = document.querySelector('.command');
+    let src;
+    command.addEventListener('mouseover', event => {
+      if (event.target.matches('img')) {
+        src = event.target.getAttribute('src');
+        event.target.src = event.target.dataset.img;
+      }
+    });
+    command.addEventListener('mouseout', event => {
+      event.target.src = src;
+    });
+  }
+  changeImg();
 
   // ввод только чисел
   const inputNumber = () => {
