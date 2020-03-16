@@ -301,7 +301,7 @@ document.addEventListener("DOMContentLoaded", () => {
       item.addEventListener('input', () => {
         item.value = item.value.replace(/[^0-9]/, '');
       });
-    })
-    inputNumber();
+    });
   }
+  inputNumber();
 });
