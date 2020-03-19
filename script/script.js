@@ -363,36 +363,77 @@ document.addEventListener("DOMContentLoaded", () => {
 
       event.preventDefault();
       form.appendChild(statusMessage);
+      statusMessage.textContent = loadMessage;
+      const formData = new FormData(form);
+      let body = {};
+      formData.forEach((val, key) => {
+        body[key] = val;
+      });
+      postData(body, () => {
+          statusMessage.textContent = successMessage;
+        },
+        (error) => {
+          statusMessage.textContent = errorMessage;
+          console.error(error);
+        });
+    });
 
+    const postData = (body, outputData, errorData) => {
       const request = new XMLHttpRequest();
       request.addEventListener('readystatechange', () => {
-        statusMessage.textContent = loadMessage;
         if (request.readyState !== 4) {
           return;
         }
         if (request.readyState === 200) {
-          statusMessage.textContent = successMessage;
+          outputData();
         } else {
-          statusMessage.textContent = errorMessage;
+          errorData(request.status);
         }
       });
-
       request.open('POST', './server.php');
       request.setRequestHeader('Content-type', 'application/json');
-      const formData = new FormData(form);
-      let body = {};
-
-      // for (let val of formData.entries()) {
-      //   body[val[0]] = val[1];
-      // }
-
-      formData.forEach((val, key) => {
-        body[key] = val;
-      });
 
       request.send(JSON.stringify(body));
-    });
+
+      document.querySelector('form').reset();
+    }
+
+
+
+    // event.preventDefault();
+    // const forms = document.querySelectorAll('form');
+    // forms.forEach((item) => {
+    //   item.addEventListener('submit', sendForm());
+    // });
   };
 
   sendForm();
+
+  const inputTypeTel = () => {
+    const inputTypeTel = document.querySelectorAll('input[type=tel]');
+    inputTypeTel.forEach((item) => {
+      item.addEventListener('input', () => {
+        // item.value = item.value.replace(/[^0-9+]/, '');
+        item.value = item.value.replace(/[^\d+]/g, '');
+      });
+    });
+  }
+  inputTypeTel();
+
+  const inputForm1 = () => {
+    const form1message = document.querySelector('#form1-name');
+    form1message.addEventListener('input', () => {
+      form1message.value = form1message.value.replace(/[^а-яё\s]/ig, '');
+    });
+  }
+  inputForm1();
+
+  const inputForm2 = () => {
+    const form2message = document.querySelector('#form2-message');
+    form2message.addEventListener('input', () => {
+      form2message.value = form2message.value.replace(/[^а-яё\s]/ig, '');
+    });
+  }
+  inputForm2();
+
 });
