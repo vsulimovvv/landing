@@ -333,7 +333,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (typeValue && squareValue) {
         total = price * typeValue * squareValue * countValue * dayValue;
-      } 
+      }
 
       totalValue.textContent = total;
     };
@@ -346,4 +346,53 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
   calc(100);
+
+  // send-ajax-form
+  const sendForm = () => {
+
+    const errorMessage = 'Что то пошло не так...',
+      loadMessage = 'Загрузка...',
+      successMessage = 'Спасибо! Мы скоро с вами свяжемся!';
+
+    const form = document.getElementById('form1');
+
+    const statusMessage = document.createElement('div');
+    statusMessage.style.cssText = 'font-size: 2rem;';
+
+    form.addEventListener('submit', event => {
+
+      event.preventDefault();
+      form.appendChild(statusMessage);
+
+      const request = new XMLHttpRequest();
+      request.addEventListener('readystatechange', () => {
+        statusMessage.textContent = loadMessage;
+        if (request.readyState !== 4) {
+          return;
+        }
+        if (request.readyState === 200) {
+          statusMessage.textContent = successMessage;
+        } else {
+          statusMessage.textContent = errorMessage;
+        }
+      });
+
+      request.open('POST', './server.php');
+      request.setRequestHeader('Content-type', 'application/json');
+      const formData = new FormData(form);
+      let body = {};
+
+      // for (let val of formData.entries()) {
+      //   body[val[0]] = val[1];
+      // }
+
+      formData.forEach((val, key) => {
+        body[key] = val;
+      });
+
+      request.send(JSON.stringify(body));
+    });
+  };
+
+  sendForm();
 });
