@@ -391,7 +391,7 @@ document.addEventListener("DOMContentLoaded", () => {
           if (request.readyState !== 4) {
             return;
           }
-          if (request.readyState === 200) {
+          if (request.status === 200) {
             outputData();
           } else {
             errorData(request.status);
