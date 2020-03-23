@@ -4,3 +4,63 @@
 4) После отправки инпуты должны очищаться
 5) Сделать валидацию данных: в поля с номером телефона можно ввести только цифры и знак “+” //
 6) Запретить ввод любых символов в поле "Ваше имя" и "Ваше сообщение", кроме Кириллицы и пробелов! //
+
+
+  // const sendForm = () => {
+
+  //   const errorMessage = 'Что то пошло не так...',
+  //     loadMessage = 'Загрузка...',
+  //     successMessage = 'Спасибо! Мы скоро с вами свяжемся!';
+
+  //   const form = document.querySelectorAll('form');
+  //   console.log(form)
+
+  //   const statusMessage = document.createElement('div');
+  //   statusMessage.style.cssText = 'font-size: 2rem;';
+
+  //   form.forEach((item) => {
+
+  //     item.addEventListener('submit', (event) => {
+
+  //       event.preventDefault();
+
+  //       item.appendChild(statusMessage);
+  //       statusMessage.textContent = loadMessage;
+  //       const formData = new FormData(item);
+  //       let body = {};
+  //       formData.forEach((val, key) => {
+  //         body[key] = val;
+  //       });
+  //       postData(body, () => {
+  //           statusMessage.textContent = successMessage;
+  //         },
+  //         (error) => {
+  //           statusMessage.textContent = errorMessage;
+  //           console.error(error);
+  //         });
+  //       console.log(item)
+  //     });
+
+  //     const postData = (body, outputData, errorData) => {
+  //       const request = new XMLHttpRequest();
+  //       request.addEventListener('readystatechange', () => {
+  //         if (request.readyState !== 4) {
+  //           return;
+  //         }
+  //         if (request.status === 200) {
+  //           outputData();
+  //         } else {
+  //           errorData(request.status);
+  //         }
+  //       });
+  //       request.open('POST', './server.php');
+  //       request.setRequestHeader('Content-type', 'application/json');
+
+  //       request.send(JSON.stringify(body));
+
+  //       item.reset();
+  //     }
+  //   });
+  // };
+
+  // sendForm();

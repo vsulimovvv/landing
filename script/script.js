@@ -348,95 +348,36 @@ document.addEventListener("DOMContentLoaded", () => {
   calc(100);
 
   // // send-ajax-form
-  // const sendForm = () => {
+  const inputTypeTel = () => {
+    const inputTypeTel = document.querySelectorAll('input[type=tel]');
+    inputTypeTel.forEach((item) => {
+      item.addEventListener('input', () => {
+        item.value = item.value.replace(/[^\d+]/g, '');
+      });
+    });
+  }
+  inputTypeTel();
 
-  //   const errorMessage = 'Что то пошло не так...',
-  //     loadMessage = 'Загрузка...',
-  //     successMessage = 'Спасибо! Мы скоро с вами свяжемся!';
+  const inputForm1 = () => {
+    const form1message = document.querySelector('#form1-name');
+    form1message.addEventListener('input', () => {
+      form1message.value = form1message.value.replace(/[^а-яё\s]/ig, '');
+    });
+  }
+  inputForm1();
 
-  //   const form = document.querySelectorAll('form');
-  //   console.log(form)
+  const inputForm2 = () => {
+    const form2Message = document.querySelector('#form2-message');
+    const form2Name = document.querySelector('#form2-name');
+    form2Message.addEventListener('input', () => {
+      form2Message.value = form2Message.value.replace(/[^а-яё\s]/ig, '');
+    });
+    form2Name.addEventListener('input', () => {
+      form2Name.value = form2Name.value.replace(/[^а-яё\s]/ig, '');
+    });
+  }
 
-  //   const statusMessage = document.createElement('div');
-  //   statusMessage.style.cssText = 'font-size: 2rem;';
-
-  //   form.forEach((item) => {
-
-  //     item.addEventListener('submit', (event) => {
-
-  //       event.preventDefault();
-
-  //       item.appendChild(statusMessage);
-  //       statusMessage.textContent = loadMessage;
-  //       const formData = new FormData(item);
-  //       let body = {};
-  //       formData.forEach((val, key) => {
-  //         body[key] = val;
-  //       });
-  //       postData(body, () => {
-  //           statusMessage.textContent = successMessage;
-  //         },
-  //         (error) => {
-  //           statusMessage.textContent = errorMessage;
-  //           console.error(error);
-  //         });
-  //       console.log(item)
-  //     });
-
-  //     const postData = (body, outputData, errorData) => {
-  //       const request = new XMLHttpRequest();
-  //       request.addEventListener('readystatechange', () => {
-  //         if (request.readyState !== 4) {
-  //           return;
-  //         }
-  //         if (request.status === 200) {
-  //           outputData();
-  //         } else {
-  //           errorData(request.status);
-  //         }
-  //       });
-  //       request.open('POST', './server.php');
-  //       request.setRequestHeader('Content-type', 'application/json');
-
-  //       request.send(JSON.stringify(body));
-
-  //       item.reset();
-  //     }
-  //   });
-  // };
-
-  // sendForm();
-
-  // const inputTypeTel = () => {
-  //   const inputTypeTel = document.querySelectorAll('input[type=tel]');
-  //   inputTypeTel.forEach((item) => {
-  //     item.addEventListener('input', () => {
-  //       item.value = item.value.replace(/[^\d+]/g, '');
-  //     });
-  //   });
-  // }
-  // inputTypeTel();
-
-  // const inputForm1 = () => {
-  //   const form1message = document.querySelector('#form1-name');
-  //   form1message.addEventListener('input', () => {
-  //     form1message.value = form1message.value.replace(/[^а-яё\s]/ig, '');
-  //   });
-  // }
-  // inputForm1();
-
-  // const inputForm2 = () => {
-  //   const form2Message = document.querySelector('#form2-message');
-  //   const form2Name = document.querySelector('#form2-name');
-  //   form2Message.addEventListener('input', () => {
-  //     form2Message.value = form2Message.value.replace(/[^а-яё\s]/ig, '');
-  //   });
-  //   form2Name.addEventListener('input', () => {
-  //     form2Name.value = form2Name.value.replace(/[^а-яё\s]/ig, '');
-  //   });
-  // }
-
-  // inputForm2();
+  inputForm2();
 
 
   const sendForm = () => {
@@ -446,7 +387,6 @@ document.addEventListener("DOMContentLoaded", () => {
       successMessage = 'Спасибо! Мы скоро с вами свяжемся!';
 
     const form = document.querySelectorAll('form');
-    console.log(form)
 
     const statusMessage = document.createElement('div');
     statusMessage.style.cssText = 'font-size: 2rem;';
@@ -464,14 +404,13 @@ document.addEventListener("DOMContentLoaded", () => {
         formData.forEach((val, key) => {
           body[key] = val;
         });
-        postData(body, () => {
+        postData(body)
+          .then(() => {
             statusMessage.textContent = successMessage;
-          },
-          (error) => {
+          })
+          .catch(() => {
             statusMessage.textContent = errorMessage;
-            console.error(error);
-          });
-        console.log(item)
+          })
       });
 
       const postData = (body) => {
@@ -485,7 +424,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (request.status === 200) {
               resolve();
             } else {
-             reject(request.status);
+              reject(request.status);
             }
           });
           request.open('POST', './server.php');
@@ -496,7 +435,6 @@ document.addEventListener("DOMContentLoaded", () => {
           item.reset();
         });
       }
-      // postData(body)
     });
   };
 
