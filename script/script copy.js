@@ -347,38 +347,37 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   calc(100);
 
-  // // send-ajax-form
-  // const inputTypeTel = () => {
-  //   const inputTypeTel = document.querySelectorAll('input[type=tel]');
-  //   inputTypeTel.forEach((item) => {
-  //     item.addEventListener('input', () => {
-  //       item.value = item.value.replace(/[^\d+]/g, '');
-  //     });
-  //   });
-  // }
-  // inputTypeTel();
+  // send-ajax-form
+  const inputTypeTel = () => {
+    const inputTypeTel = document.querySelectorAll('input[type=tel]');
+    inputTypeTel.forEach((item) => {
+      item.addEventListener('input', () => {
+        item.value = item.value.replace(/[^\d+]/g, '');
+      });
+    });
+  }
+  inputTypeTel();
 
-  // const inputForm1 = () => {
-  //   const form1message = document.querySelector('#form1-name');
-  //   form1message.addEventListener('input', () => {
-  //     form1message.value = form1message.value.replace(/[^а-яё\s]/ig, '');
-  //   });
-  // }
-  // inputForm1();
+  const inputForm1 = () => {
+    const form1message = document.querySelector('#form1-name');
+    form1message.addEventListener('input', () => {
+      form1message.value = form1message.value.replace(/[^а-яА-Я]/ig, '');
+    });
+  }
+  inputForm1();
 
-  // const inputForm2 = () => {
-  //   const form2Message = document.querySelector('#form2-message');
-  //   const form2Name = document.querySelector('#form2-name');
-  //   form2Message.addEventListener('input', () => {
-  //     form2Message.value = form2Message.value.replace(/[^а-яё\s]/ig, '');
-  //   });
-  //   form2Name.addEventListener('input', () => {
-  //     form2Name.value = form2Name.value.replace(/[^а-яё\s]/ig, '');
-  //   });
-  // }
+  const inputForm2 = () => {
+    const form2Message = document.querySelector('#form2-message');
+    const form2Name = document.querySelector('#form2-name');
+    form2Message.addEventListener('input', () => {
+      form2Message.value = form2Message.value.replace(/[^а-яА-Я]/ig, '');
+    });
+    form2Name.addEventListener('input', () => {
+      form2Name.value = form2Name.value.replace(/[^а-яА-Я]/ig, '');
+    });
+  }
 
-  // inputForm2();
-
+  inputForm2();
 
   const sendForm = () => {
 
@@ -399,6 +398,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         item.appendChild(statusMessage);
         statusMessage.textContent = loadMessage;
+
+        const removeMessage = () => {
+          statusMessage.textContent = '';
+        }
+
         const formData = new FormData(item);
         let body = {};
         formData.forEach((val, key) => {
@@ -411,9 +415,11 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             console.log(response);
             statusMessage.textContent = successMessage;
+            setTimeout(removeMessage, 5000);
           })
           .catch(() => {
             statusMessage.textContent = errorMessage;
+            setTimeout(removeMessage, 5000);
           });
       });
 
@@ -426,13 +432,6 @@ document.addEventListener("DOMContentLoaded", () => {
           body: JSON.stringify(body)
 
         });
-
-        request.open('POST', './server.php');
-        request.setRequestHeader('Content-type', 'application/json');
-
-        request.send(JSON.stringify(body));
-
-        item.reset();
       }
     });
   };
