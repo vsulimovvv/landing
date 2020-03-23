@@ -415,12 +415,15 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             console.log(response);
             statusMessage.textContent = successMessage;
+            // item.reset();
             setTimeout(removeMessage, 5000);
           })
           .catch(() => {
             statusMessage.textContent = errorMessage;
+            // item.reset();
             setTimeout(removeMessage, 5000);
           });
+          item.reset();
       });
 
       const postData = (body) => {
@@ -430,7 +433,6 @@ document.addEventListener("DOMContentLoaded", () => {
             'Content-type': 'application/json'
           },
           body: JSON.stringify(body)
-
         });
       }
     });
