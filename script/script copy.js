@@ -347,7 +347,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   calc(100);
 
-  // send-ajax-form
+  // // send-ajax-form
   // const inputTypeTel = () => {
   //   const inputTypeTel = document.querySelectorAll('input[type=tel]');
   //   inputTypeTel.forEach((item) => {
@@ -361,7 +361,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // const inputForm1 = () => {
   //   const form1message = document.querySelector('#form1-name');
   //   form1message.addEventListener('input', () => {
-  //     form1message.value = form1message.value.replace(/[^а-яА-Я]/, '');
+  //     form1message.value = form1message.value.replace(/[^а-яё\s]/ig, '');
   //   });
   // }
   // inputForm1();
@@ -370,14 +370,15 @@ document.addEventListener("DOMContentLoaded", () => {
   //   const form2Message = document.querySelector('#form2-message');
   //   const form2Name = document.querySelector('#form2-name');
   //   form2Message.addEventListener('input', () => {
-  //     form2Message.value = form2Message.value.replace(/[^а-яА-Я]/, '');
+  //     form2Message.value = form2Message.value.replace(/[^а-яё\s]/ig, '');
   //   });
   //   form2Name.addEventListener('input', () => {
-  //     form2Name.value = form2Name.value.replace(/[^а-яА-Я]/, '');
+  //     form2Name.value = form2Name.value.replace(/[^а-яё\s]/ig, '');
   //   });
   // }
 
   // inputForm2();
+
 
   const sendForm = () => {
 
@@ -388,7 +389,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelectorAll('form');
 
     const statusMessage = document.createElement('div');
-    statusMessage.style.cssText = 'font-size: 2rem;';  
+    statusMessage.style.cssText = 'font-size: 2rem;';
 
     form.forEach((item) => {
 
@@ -398,51 +399,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
         item.appendChild(statusMessage);
         statusMessage.textContent = loadMessage;
-        
-        const removeMessage = () => {
-          statusMessage.textContent = '';
-        }
-        
         const formData = new FormData(item);
         let body = {};
         formData.forEach((val, key) => {
           body[key] = val;
         });
         postData(body)
-          .then(() => {
+          .then((response) => {
+            if (response.status !== 200) {
+              throw new Error('status network not 200');
+            }
+            console.log(response);
             statusMessage.textContent = successMessage;
-            setTimeout(removeMessage, 5000);
           })
           .catch(() => {
             statusMessage.textContent = errorMessage;
-            setTimeout(removeMessage, 5000);
-          })
+          });
       });
 
       const postData = (body) => {
+        return fetch('./server.php', {
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json'
+          },
+          body: JSON.stringify(body)
 
-        return new Promise((resolve, reject) => {
-          const request = new XMLHttpRequest();
-          request.addEventListener('readystatechange', () => {
-            if (request.readyState !== 4) {
-              return;
-            }
-            if (request.status === 200) {
-              resolve();
-            } else {
-              reject(request.status);
-            }
-          });
-          request.open('POST', './server.php');
-          request.setRequestHeader('Content-type', 'application/json');
-
-          request.send(JSON.stringify(body));
-
-          item.reset();
         });
+
+        request.open('POST', './server.php');
+        request.setRequestHeader('Content-type', 'application/json');
+
+        request.send(JSON.stringify(body));
+
+        item.reset();
       }
     });
   };
 
   sendForm();
+
 });
